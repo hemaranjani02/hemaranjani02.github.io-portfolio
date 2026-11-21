@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hemaranjani Geddam · Portfolio</title>
+<meta name="description" content="Hemaranjani Geddam: AI Engineer building LLM, RAG and multi-agent systems in regulated financial services.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one reading column; a left rail of mono labels carries each section's kind (case study, role, degree) so a screener can scan the edge. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --ink: #16202b;
+  --muted: #56616e;
+  --line: #dde2e8;
+  --accent: #1f4fbf;
+  --accent-soft: #e7edfb;
+  --todo-bg: #fff4c2;
+  --todo-ink: #6b5200;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141a; --surface: #161d25; --ink: #e8ecf1; --muted: #9aa6b3;
+    --line: #26303b; --accent: #86a8ff; --accent-soft: #1b2740;
+    --todo-bg: #3a3214; --todo-ink: #f3dc85; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f141a; --surface: #161d25; --ink: #e8ecf1; --muted: #9aa6b3;
+  --line: #26303b; --accent: #86a8ff; --accent-soft: #1b2740;
+  --todo-bg: #3a3214; --todo-ink: #f3dc85; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 17px; line-height: 1.6;
+}
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+.wrap { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+
+/* Header */
+header.top { padding: 56px 0 36px; border-bottom: 1px solid var(--line); }
+.name { font-family: var(--font-display); font-weight: 600; font-size: clamp(2.2rem, 5vw, 3.2rem); line-height: 1.1; margin: 0; text-wrap: balance; }
+.role { font-size: 1.2rem; margin: 10px 0 0; color: var(--ink); }
+.meta { font-family: var(--font-mono); font-size: .85rem; color: var(--muted); margin: 6px 0 0; }
+.summary { max-width: 65ch; margin: 22px 0 0; color: var(--ink); }
+.links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--surface);
+  color: var(--ink); text-decoration: none; font-weight: 500; font-size: .95rem;
+}
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+:root[data-theme="dark"] .btn.primary { color: #0f141a; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.primary { color: #0f141a; } }
+.btn:hover { border-color: var(--accent); }
+
+/* Skills */
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px 28px; padding: 32px 0; border-bottom: 1px solid var(--line); }
+.skills h3 { font-family: var(--font-mono); font-size: .78rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: .85rem; padding: 3px 10px; border-radius: 4px; background: var(--accent-soft); color: var(--ink); }
+
+/* Sections */
+section { padding: 44px 0 8px; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.7rem; margin: 0 0 6px; }
+.lede { color: var(--muted); margin: 0 0 24px; max-width: 65ch; }
+
+.entry { display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 26px 0; border-top: 1px solid var(--line); }
+.rail { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); line-height: 1.5; }
+.rail .kind { display: block; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.entry h3 { margin: 0; font-size: 1.2rem; font-weight: 600; line-height: 1.35; text-wrap: balance; }
+.entry .where { margin: 2px 0 12px; color: var(--muted); font-size: .95rem; }
+.entry p { margin: 0 0 12px; max-width: 65ch; }
+
+dl.case { margin: 0; display: grid; gap: 12px; }
+dl.case dt { font-family: var(--font-mono); font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+dl.case dd { margin: 2px 0 0; max-width: 65ch; }
+ul.tight { margin: 4px 0 0; padding-left: 20px; }
+ul.tight li { margin: 4px 0; }
+.stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.stack span { font-family: var(--font-mono); font-size: .78rem; padding: 2px 8px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); }
+
+/* Highlighted spots for Hemaranjani to fill in before going live. Delete this class's elements once filled. */
+.todo { background: var(--todo-bg); color: var(--todo-ink); padding: 1px 6px; border-radius: 3px; font-size: .92em; }
+
+/* Case studies nested under a role */
+.project { margin-top: 16px; padding: 18px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.project .label { font-family: var(--font-mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin: 0 0 4px; }
+.project h4 { margin: 0; font-size: 1.1rem; font-weight: 600; line-height: 1.35; text-wrap: balance; }
+.project .where { margin: 2px 0 12px; }
+.project > p { margin: 8px 0 0; }
+.project h4 + dl.case { margin-top: 12px; }
+.project h4 + ul.tight { margin-top: 10px; }
+@media (max-width: 640px) { .impact { grid-template-columns: repeat(2, 1fr); } }
+
+.impact { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 0 4px; }
+.impact .tile { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.impact b { display: block; font-family: var(--font-display); font-weight: 600; font-size: 1.35rem; line-height: 1.15; color: var(--accent); font-variant-numeric: tabular-nums; }
+.impact span { display: block; margin-top: 4px; font-size: .82rem; color: var(--muted); line-height: 1.35; }
+.project ul.tight li strong { color: var(--ink); }
+
+/* Research feature */
+.research { margin-top: 8px; padding: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.research h3 { font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; line-height: 1.25; margin: 0; text-wrap: balance; }
+.research .where { margin: 6px 0 14px; color: var(--muted); font-size: .95rem; }
+.fields { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+.fields span { font-size: .8rem; font-weight: 500; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.pitch { font-size: 1.08rem; max-width: 65ch; margin: 0 0 22px; }
+.subhead { font-family: var(--font-mono); font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 26px 0 10px; }
+.tracks { display: grid; gap: 12px; }
+.track { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; background: var(--bg); }
+.track-name { font-weight: 600; font-size: .95rem; margin: 0 0 10px; }
+.track-name small { font-weight: 400; color: var(--muted); }
+.flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 6px; }
+.step { flex: 1 1 130px; padding: 8px 10px; border-radius: 6px; background: var(--surface); border: 1px solid var(--line); font-size: .86rem; line-height: 1.35; }
+.step b { display: block; font-weight: 600; font-size: .9rem; }
+.step span { color: var(--muted); }
+.step.out { border-color: var(--accent); }
+.arrow { align-self: center; color: var(--muted); font-size: 1rem; }
+.results { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; }
+.result { border: 1px solid var(--line); border-radius: 8px; padding: 16px; }
+.big { font-family: var(--font-display); font-size: 2.1rem; font-weight: 600; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.result p { margin: 8px 0 0; font-size: .92rem; }
+.result .note { color: var(--muted); font-size: .82rem; }
+.bars { display: grid; gap: 8px; margin-top: 14px; }
+.bar { display: grid; grid-template-columns: 96px 1fr 48px; align-items: center; gap: 8px; font-size: .82rem; }
+.bar .track-bg { height: 12px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.bar .fill { height: 100%; background: var(--muted); border-radius: 3px; }
+.bar.win .fill { background: var(--accent); }
+.bar.win { font-weight: 600; }
+.bar .val { text-align: right; font-variant-numeric: tabular-nums; }
+ul.takeaways { margin: 0; padding-left: 20px; max-width: 70ch; }
+ul.takeaways li { margin: 6px 0; }
+.techgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px 24px; margin: 0; }
+.techgrid dt { font-weight: 600; font-size: .88rem; margin-bottom: 6px; }
+.techgrid dd { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.techgrid dd span { font-family: var(--font-mono); font-size: .78rem; padding: 2px 8px; border: 1px solid var(--line); border-radius: 4px; color: var(--ink); background: var(--bg); }
+.research-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.thesis-title { margin-top: 20px; font-size: .85rem; color: var(--muted); }
+@media (max-width: 640px) { .research { padding: 18px; } .arrow { transform: rotate(90deg); flex-basis: 100%; text-align: center; } }
+
+footer { margin-top: 48px; padding: 28px 0 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+footer .links { margin-top: 12px; }
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  header.top { padding-top: 36px; }
+  .entry { grid-template-columns: 1fr; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media print {
+  body { background: #fff; color: #000; font-size: 11pt; }
+  .todo { background: none; }
+  .links { display: none; }
+}
+
+/* Compact layout: same content, less scrolling */
+.wrap { max-width: 1080px; }
+.summary { max-width: 78ch; }
+.skills { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px 24px; padding: 24px 0; }
+.chip { font-size: .78rem; padding: 2px 8px; }
+.chips { gap: 5px; }
+.entry { grid-template-columns: 150px 1fr; gap: 20px; padding: 20px 0; }
+section { padding-top: 32px; }
+.project { padding: 16px 18px; margin-top: 12px; }
+.project ul.tight li, .project p { font-size: .94rem; line-height: 1.5; }
+ul.tight li { margin: 2px 0; }
+dl.case { gap: 8px; }
+.stack { margin-top: 10px; }
+.stack span { font-size: .72rem; padding: 1px 6px; }
+@media (min-width: 980px) {
+  .project dl.case { display: block; column-count: 2; column-gap: 32px; }
+  .project dl.case > div { break-inside: avoid; margin-bottom: 12px; }
+  .research .techgrid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 640px) { .entry { grid-template-columns: 1fr; gap: 6px; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <h1 class="name">Hemaranjani Geddam</h1>
+    <p class="role">AI Engineer · Generative AI and Agentic AI</p>
+    <p class="meta">Tampa, FL · 2 years at Citi</p>
+    <p class="summary">
+      AI Engineer with 8+ years building production generative AI, agentic AI and machine learning systems at Citi,
+      Credit One Bank, Applied Materials and Ericsson. Hands-on with Python, LangChain, LangGraph, LLMs (Claude, Gemini,
+      Llama 3.3), RAG, MCP tool servers, LLM gateways, OpenShift/Kubernetes, guardrails, evaluation pipelines and
+      OpenTelemetry, taking AI from prototype to production. Built LangChain/LangGraph multi-agent workflows that cut
+      analysis time by about 50% and are rolling out to about 250 users, plus an internal RAG assistant on self-hosted
+      Llama 3.3. Experienced in fraud detection, customer analytics and governed AI delivery through security, model risk
+      and privacy review, improving reliability, safety and business outcomes in regulated financial services.
+    </p>
+    <div class="links">
+      <a class="btn primary" href="https://www.linkedin.com/in/hg4">LinkedIn</a>
+      <a class="btn" href="https://github.com/hemaranjani02">GitHub</a>
+      <a class="btn" href="resume.pdf">Résumé (PDF)</a>
+      <!-- Add your email: <a class="btn" href="mailto:you@example.com">you@example.com</a> -->
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="skills" aria-label="Skills">
+    <div>
+      <h3>Generative AI &amp; LLMs</h3>
+      <div class="chips"><span class="chip">RAG</span><span class="chip">Llama 3.3</span><span class="chip">Claude</span><span class="chip">Gemini</span><span class="chip">Prompt engineering</span><span class="chip">LoRA / SFT fine-tuning</span><span class="chip">Knowledge-graph grounding</span></div>
+    </div>
+    <div>
+      <h3>Agentic AI</h3>
+      <div class="chips"><span class="chip">LangChain</span><span class="chip">LangGraph</span><span class="chip">Multi-agent systems</span><span class="chip">ReAct</span><span class="chip">Tool calling</span><span class="chip">Model Context Protocol (MCP)</span><span class="chip">Human-in-the-loop</span></div>
+    </div>
+    <div>
+      <h3>AI safety &amp; evaluation</h3>
+      <div class="chips"><span class="chip">Guardrails</span><span class="chip">LLM-as-judge</span><span class="chip">Prompt-injection &amp; jailbreak testing</span><span class="chip">Eval pipelines</span><span class="chip">PII protection</span><span class="chip">Model risk review</span></div>
+    </div>
+    <div>
+      <h3>Platform &amp; MLOps</h3>
+      <div class="chips"><span class="chip">Python</span><span class="chip">SQL / PySpark</span><span class="chip">Flask / REST APIs</span><span class="chip">Oracle PL/SQL</span><span class="chip">PostgreSQL</span><span class="chip">Docker</span><span class="chip">OpenShift / Kubernetes</span><span class="chip">Kafka</span><span class="chip">gRPC</span><span class="chip">Airflow</span><span class="chip">MLflow</span><span class="chip">CI/CD</span><span class="chip">Vertex AI</span><span class="chip">AWS Bedrock</span><span class="chip">SageMaker</span><span class="chip">Lambda</span></div>
+    </div>
+    <div>
+      <h3>Security &amp; observability</h3>
+      <div class="chips"><span class="chip">OAuth2 / JWT</span><span class="chip">RBAC</span><span class="chip">HashiCorp Vault</span><span class="chip">OpenTelemetry</span><span class="chip">LangSmith</span><span class="chip">Langfuse</span></div>
+    </div>
+    <div>
+      <h3>Machine learning</h3>
+      <div class="chips"><span class="chip">XGBoost</span><span class="chip">Random Forest</span><span class="chip">Anomaly detection</span><span class="chip">Feature engineering</span><span class="chip">Class-imbalance handling</span><span class="chip">Fraud detection</span><span class="chip">scikit-learn</span><span class="chip">SHAP (explainable AI)</span><span class="chip">K-Means clustering</span><span class="chip">Neural networks (MLP)</span><span class="chip">NLP / NLTK</span><span class="chip">Sentiment analysis</span></div>
+    </div>
+    <div>
+      <h3>Computer vision &amp; AI privacy</h3>
+      <div class="chips"><span class="chip">PyTorch</span><span class="chip">GANs</span><span class="chip">Face de-identification</span><span class="chip">Adversarial ML</span><span class="chip">OpenFace</span></div>
+    </div>
+  </div>
+
+  <section id="experience" aria-labelledby="exp-h">
+    <h2 id="exp-h">Experience</h2>
+    <p class="lede">Each role with the production systems I built there. Internal details are kept general to respect confidentiality.</p>
+
+    <div class="entry">
+      <div class="rail"><span class="kind">Role</span>Oct 2024 – present<br>2 years</div>
+      <div>
+        <h3>AI Engineer, Citi</h3>
+        <p class="where">Tampa, FL</p>
+        <p>Generative AI and agentic AI systems for financial data, built end to end: agent design, model platform, safety and evaluation, and production governance.</p>
+
+        <div class="impact" aria-label="Impact at Citi">
+          <div class="tile"><b>~50%</b><span>less analysis time in a multi-team pilot</span></div>
+          <div class="tile"><b>~250</b><span>users in the multi-agent rollout</span></div>
+          <div class="tile"><b>68% → 87%</b><span>agent task success</span></div>
+          <div class="tile"><b>4.2% → 1.1%</b><span>unsafe or ungrounded responses</span></div>
+          <div class="tile"><b>40 QPS</b><span>at under 2.5 s p95 latency</span></div>
+          <div class="tile"><b>3</b><span>GenAI use cases taken to production</span></div>
+        </div>
+
+        <article class="project">
+          <p class="label">Generative AI &amp; agentic AI · Case study</p>
+          <h4>Production generative and agentic AI for financial data</h4>
+          <p class="where">Designed and deployed, from prototype through governance review to production</p>
+          <dl class="case">
+            <div><dt>Agentic AI systems</dt><dd>
+              <ul class="tight">
+                <li>Designed and deployed LangChain/LangGraph multi-agent workflows (ReAct, memory, tool calling) that automate analysis over financial data. They cut analysis time by <strong>about 50%</strong> in a multi-team pilot and are now rolling out to <strong>about 250 users</strong>.</li>
+                <li>Built self-correcting SQL/Spark agents that reach <strong>70%+ first-pass success</strong> on enterprise data requests, with MCP tool access limited to read-only, validated queries.</li>
+                <li>Designed knowledge-graph grounding for agent responses, raising factual reliability by <strong>25%</strong> and reducing hallucinations.</li>
+                <li>Engineered failure handling and human-in-the-loop escalation for tool errors, upstream outages, guardrail trips and hallucinations, raising agent task success from <strong>68% to 87%</strong>.</li>
+              </ul>
+            </dd></div>
+            <div><dt>Generative AI and RAG</dt><dd>
+              <ul class="tight">
+                <li>Built an internal RAG assistant on self-hosted Llama 3.3 over financial data, with embeddings and vector retrieval served behind an authenticated API gateway.</li>
+                <li>Tuned model behavior through prompt engineering and LoRA/SFT fine-tuning for reliable structured outputs.</li>
+              </ul>
+            </dd></div>
+            <div><dt>Models, MCP and platform</dt><dd>
+              <ul class="tight">
+                <li>Integrated Claude, Gemini and Llama models through a central LLM gateway with exponential backoff, jitter and fallback models, sustaining <strong>40 QPS at under 2.5 s p95</strong> end-to-end latency.</li>
+                <li>Developed Python MCP servers that expose <strong>6 internal systems</strong> as agent tools, with OAuth2 machine-to-machine authentication, per-user entitlement checks and token-usage reporting for cost attribution.</li>
+                <li>Deployed agents on an enterprise agentic AI runtime on OpenShift/Kubernetes with network isolation, quotas and runtime access controls; agent services run on Kafka, gRPC, Airflow and MLflow.</li>
+                <li>Built CI/CD pipelines that promote GenAI assets from Dev to UAT to Prod under enterprise SDLC and architecture governance, with hardened, non-root container deployments.</li>
+                <li>Prototyped GenAI solutions on Google Vertex AI in sandboxed, budget-capped environments before production.</li>
+              </ul>
+            </dd></div>
+            <div><dt>Safety and evaluation</dt><dd>
+              <ul class="tight">
+                <li>Integrated real-time guardrails that combine prompt-injection detection, custom LLM-as-judge checks and input/output sanitization against jailbreaks, PII leakage and hallucination. They cut flagged unsafe or ungrounded responses from <strong>4.2% to 1.1%</strong> of traffic.</li>
+                <li>Built LLM evaluation pipelines and an adversarial test harness that score toxicity, bias, faithfulness, contextual relevancy, prompt injection and jailbreak resistance over <strong>600+ regression cases</strong>. Production releases are gated on eval thresholds, and validated domain-specific judge metrics are promoted to runtime guardrails.</li>
+              </ul>
+            </dd></div>
+            <div><dt>Security, observability and governance</dt><dd>
+              <ul class="tight">
+                <li>Set up service identities and RBAC for human-to-machine and machine-to-machine access using OAuth and JWT-based tokens, with secrets in HashiCorp Vault.</li>
+                <li>Instrumented agents with OpenTelemetry traces, metrics and structured logs, plus LangSmith and Langfuse tracing; built dashboards for token spend, latency and error rates, and audit logging for security monitoring and model risk reviews.</li>
+                <li>Took <strong>3 GenAI use cases</strong> from experiment to production through enterprise AI governance: risk tiering, model risk (MRM) review, security review, privacy impact assessment and algorithmic bias review.</li>
+              </ul>
+            </dd></div>
+          </dl>
+          <div class="stack"><span>Python</span><span>LangChain</span><span>LangGraph</span><span>ReAct</span><span>MCP</span><span>Llama 3.3</span><span>Claude</span><span>Gemini</span><span>RAG</span><span>LoRA / SFT</span><span>Knowledge graphs</span><span>SQL / Spark</span><span>OpenShift / Kubernetes</span><span>Kafka</span><span>Airflow</span><span>MLflow</span><span>Vertex AI</span><span>Guardrails</span><span>LLM-as-judge</span><span>OpenTelemetry</span><span>LangSmith</span><span>Langfuse</span><span>HashiCorp Vault</span></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="rail"><span class="kind">Role</span>2023 – 2024</div>
+      <div>
+        <h3>AI/ML Engineer, Credit One Bank</h3>
+        <p class="where">Las Vegas, NV</p>
+        <p>Machine learning for credit card fraud detection and financial risk assessment, from data pipelines through deployment and monitoring.</p>
+        <article class="project">
+          <p class="label">Machine learning · Case study</p>
+          <h4>Credit card fraud detection and risk assessment</h4>
+          <p class="where">Reduced false positives by more than 60%</p>
+          <dl class="case">
+            <div><dt>Modeling</dt><dd>
+              <ul class="tight">
+                <li>Developed ML solutions for credit card fraud detection and financial risk assessment in Python, automating analysis of transactional data, customer behavior and payment history.</li>
+                <li>Built and optimized supervised classification and anomaly detection models with XGBoost, Random Forest and scikit-learn to identify suspicious transactions, unusual spending and potential fraud.</li>
+                <li>Engineered behavioral and transaction-profiling features from transaction frequency, authorization velocity, merchant categories, spending trends and account history.</li>
+                <li>Applied feature selection (Recursive Feature Elimination, Chi-Square), hyperparameter tuning and class-imbalance handling, reducing false positives by <strong>more than 60%</strong>.</li>
+                <li>Validated models with precision, recall, F1, ROC-AUC, confusion matrices and cross-validation to assess detection effectiveness and reliability.</li>
+                <li>Integrated SHAP explainability to interpret predictions, surface the most influential transaction attributes, and support fraud investigation and risk decisions.</li>
+              </ul>
+            </dd></div>
+            <div><dt>Pipelines and deployment</dt><dd>
+              <ul class="tight">
+                <li>Architected and maintained end-to-end ML pipelines with Apache Airflow, PySpark and PostgreSQL that automate data ingestion, preprocessing, feature engineering, model training and deployment.</li>
+                <li>Deployed and monitored models on AWS SageMaker and Docker containers for scalable inference and fraud monitoring.</li>
+                <li>Built automated monitoring and alerting that flags high-risk transactions and feeds predictive risk scores into downstream reporting and investigation systems.</li>
+              </ul>
+            </dd></div>
+          </dl>
+          <div class="stack"><span>Python</span><span>XGBoost</span><span>Random Forest</span><span>scikit-learn</span><span>SHAP</span><span>Apache Airflow</span><span>PySpark</span><span>PostgreSQL</span><span>AWS SageMaker</span><span>Docker</span></div>
+        </article>
+      </div>
+    </div>
+    <div class="entry">
+      <div class="rail"><span class="kind">Research</span>Aug 2021 – May 2023<br>2 years</div>
+      <div><h3>Graduate Research Assistant, Texas A&amp;M University–Commerce</h3><p class="where">Computer Science · Advisor: Dr. Yuehua Wang</p>
+      <p>Built a privacy-preserving computer vision framework for online classes: GAN-based face de-identification plus engagement detection from facial behavior. This became my M.S. thesis (see Research below).</p></div>
+    </div>
+    <div class="entry">
+      <div class="rail"><span class="kind">Role</span>Aug 2019 – Aug 2021<br>2 years</div>
+      <div>
+        <h3>Data Scientist, Applied Materials</h3>
+        <p class="where">Hyderabad, India</p>
+        <p>Fraud detection, sentiment analysis and customer scoring models for retail and manufacturing clients, from data collection through production deployment.</p>
+
+        <div class="impact" aria-label="Impact at Applied Materials">
+          <div class="tile"><b>15%</b><span>fewer false positives in fraud detection</span></div>
+          <div class="tile"><b>13%</b><span>higher accuracy in product classification</span></div>
+          <div class="tile"><b>3</b><span>product updates driven by sentiment insights in six months</span></div>
+        </div>
+
+        <article class="project">
+          <p class="label">Data science · Case study</p>
+          <h4>Fraud detection, NLP and customer analytics for retail and manufacturing clients</h4>
+          <ul class="tight">
+            <li>Developed a feed-forward multilayer perceptron (ANN) fraud detection model. Pruning reduced false positives by <strong>15%</strong>, which meant fewer manual fraud review escalations for the client's operations team.</li>
+            <li>Built product classification models with Decision Trees and Random Forest that improved online sales analytics accuracy by <strong>13%</strong>. Ensemble tuning and cross-validation prevented overfitting on a highly imbalanced product catalog.</li>
+            <li>Implemented NLP sentiment analysis on customer reviews with Python, NLTK and web scraping, surfacing product insights that informed <strong>three product updates</strong> in the first six months.</li>
+            <li>Segmented customers with K-Means clustering on behavioral attributes (age, income, geography, purchase history) to support targeted marketing campaigns, with measurable lift in click-through rates.</li>
+          </ul>
+          <div class="stack"><span>Python</span><span>Neural networks (MLP)</span><span>Decision Trees</span><span>Random Forest</span><span>NLTK</span><span>Sentiment analysis</span><span>Web scraping</span><span>K-Means</span></div>
+        </article>
+      </div>
+    </div>
+    <div class="entry">
+      <div class="rail"><span class="kind">Role</span>Jun 2016 – Jul 2019<br>3 years</div>
+      <div>
+        <h3>Software Engineer, Ericsson</h3>
+        <p class="where">Hyderabad, India</p>
+        <p>Python web applications for telecom network monitoring, alarm management and incident tracking.</p>
+        <article class="project">
+          <p class="label">Software engineering · Case study</p>
+          <h4>Telecom network monitoring and incident tracking</h4>
+          <ul class="tight">
+            <li>Built Python web applications with Flask and RESTful APIs for telecom network monitoring, alarm management and incident tracking.</li>
+            <li>Built front-end dashboards with JavaScript, jQuery and HTML that show live alarms and incident status from the APIs.</li>
+            <li>Developed Oracle PL/SQL and optimized SQL queries behind the monitoring and incident-tracking applications.</li>
+            <li>Added authentication, logging and error handling, delivering features on time in an Agile team.</li>
+          </ul>
+          <div class="stack"><span>Python</span><span>Flask</span><span>REST APIs</span><span>JavaScript</span><span>jQuery</span><span>HTML</span><span>Oracle PL/SQL</span><span>SQL</span><span>Agile</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="research" aria-labelledby="research-h">
+    <h2 id="research-h">Research</h2>
+    <p class="lede">Graduate research completed for my M.S. in Computer Science at Texas A&amp;M University–Commerce. It reflects the focus that carries through my industry work: building AI systems that are secure, private and trustworthy.</p>
+
+    <article class="research">
+      <h3>Protecting student identity while measuring engagement in online classes</h3>
+      <p class="where">M.S. thesis, 2023 · Texas A&amp;M University–Commerce · Advisor: Dr. Yuehua Wang</p>
+      <div class="fields" aria-label="Research fields">
+        <span>Computer Vision</span><span>AI Privacy &amp; Security</span><span>Generative Models (GANs)</span><span>Adversarial ML</span><span>Affective Computing</span><span>EdTech</span>
+      </div>
+      <p class="pitch">Virtual classrooms often require students to keep their webcams on so instructors can gauge attention. Continuous video, however, exposes each student's facial identity to spoofing, misuse and identity theft. I developed a privacy-preserving framework that addresses both needs. It de-identifies student faces by combining adversarial cloaking (Fawkes) with GAN-based attribute editing (AttGAN), and it measures engagement from facial behavior using OpenFace features and a neural network classifier. Instructors can assess engagement without exposing who the student is.</p>
+
+      <p class="subhead">How it works</p>
+      <div class="tracks">
+        <div class="track">
+          <p class="track-name">1 · Protect identity <small>· hybrid face de-identification</small></p>
+          <div class="flow">
+            <div class="step"><b>Student face</b><span>video frame</span></div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="step"><b>Fawkes</b><span>adds adversarial "cloak" noise</span></div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="step"><b>AttGAN</b><span>edits facial attributes</span></div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="step out"><b>Protected face</b><span>checked against AWS Rekognition</span></div>
+          </div>
+        </div>
+        <div class="track">
+          <p class="track-name">2 · Measure engagement <small>· from behavior, not identity</small></p>
+          <div class="flow">
+            <div class="step"><b>Class video</b><span>split into frames</span></div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="step"><b>OpenFace 2.2.0</b><span>eye gaze, head pose, facial action units</span></div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="step"><b>Neural network (MLP)</b><span>709 features → 4 hidden layers</span></div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="step out"><b>Engaged or not</b><span>per student</span></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="subhead">Results</p>
+      <div class="results">
+        <div class="result">
+          <div class="big">71.5%</div>
+          <p>Protection success rate of the hybrid model against AWS face recognition, on its strongest attribute.</p>
+          <div class="bars" role="img" aria-label="Protection success rate, Bald attribute: Fawkes alone 12.7 percent, AttGAN alone 58.5 percent, hybrid 71.5 percent">
+            <div class="bar"><span>Fawkes alone</span><div class="track-bg"><div class="fill" style="width:12.66%"></div></div><span class="val">12.7%</span></div>
+            <div class="bar"><span>AttGAN alone</span><div class="track-bg"><div class="fill" style="width:58.5%"></div></div><span class="val">58.5%</span></div>
+            <div class="bar win"><span>My hybrid</span><div class="track-bg"><div class="fill" style="width:71.5%"></div></div><span class="val">71.5%</span></div>
+          </div>
+          <p class="note">"Bald" attribute. The hybrid beat both models on all 13 attributes tested, by about 12 points on average over AttGAN. Evaluated with 5,200 AWS face comparisons (4 models × 13 attributes × 100 samples) at an 80% match threshold, drawn from 20,599 held-out CelebA images.</p>
+        </div>
+        <div class="result">
+          <div class="big">92.1%</div>
+          <p>Test accuracy detecting student engagement, comparable with SVM, KNN, Random Forest and XGBoost baselines.</p>
+          <p class="note">DAiSEE dataset: 7,348 videos, about 2.2 million frames. Trained on 5,482 videos and tested on 1,866 unseen videos.</p>
+        </div>
+      </div>
+
+      <p class="subhead">Why it matters</p>
+      <ul class="takeaways">
+        <li><strong>Privacy and usefulness together.</strong> Encryption hides a face completely and makes engagement impossible to measure. My approach keeps the behavior signal while removing the identity.</li>
+        <li><strong>Fairer by design.</strong> The engagement model learns from facial behavior instead of raw faces, so it judges what a student is doing, not who the student is.</li>
+        <li><strong>Grounded in real attacks.</strong> Every protected face was tested against a commercial face recognition service, AWS Rekognition.</li>
+      </ul>
+
+      <p class="subhead">Technologies used</p>
+      <dl class="techgrid">
+        <div><dt>Language &amp; environment</dt><dd><span>Python</span><span>Jupyter Notebook</span><span>CUDA (GPU training)</span></dd></div>
+        <div><dt>Deep learning</dt><dd><span>PyTorch</span><span>torchvision</span><span>TensorBoardX</span><span>torchsummary</span></dd></div>
+        <div><dt>Generative &amp; privacy models</dt><dd><span>AttGAN (PyTorch)</span><span>Fawkes</span><span>Fader Networks</span></dd></div>
+        <div><dt>Computer vision</dt><dd><span>OpenFace 2.2.0</span><span>OpenCV</span><span>Pillow</span><span>scikit-image</span></dd></div>
+        <div><dt>Machine learning</dt><dd><span>MLP classifier</span><span>scikit-learn</span><span>XGBoost</span><span>SVM</span><span>Random Forest</span><span>KNN</span></dd></div>
+        <div><dt>Data &amp; visualization</dt><dd><span>pandas</span><span>NumPy</span><span>Matplotlib</span><span>Seaborn</span></dd></div>
+        <div><dt>Cloud</dt><dd><span>AWS Rekognition (CompareFaces)</span><span>boto3</span></dd></div>
+        <div><dt>Datasets</dt><dd><span>CelebA</span><span>DAiSEE</span></dd></div>
+      </dl>
+      <div class="research-links">
+        <a class="btn primary" href="https://github.com/hemaranjani02/SmartEducation-Masters-Project">View the code on GitHub</a>
+      </div>
+      <p class="thesis-title">Thesis title: <em>Promoting Active Learning and Protecting Student Privacy for Smart Education</em></p>
+    </article>
+  </section>
+
+
+  <section id="education" aria-labelledby="edu-h">
+    <h2 id="edu-h">Education</h2>
+    <div class="entry">
+      <div class="rail"><span class="kind">Degree</span>2021 – 2023</div>
+      <div><h3>M.S. in Computer Science (Thesis)</h3><p class="where">Texas A&amp;M University–Commerce · May 2023 · GPA 4.0</p>
+      <p>Thesis in privacy-preserving computer vision (see Research). Relevant coursework: Big Data Computing &amp; Analytics, Data Analysis &amp; Visualization, Algorithm Design, Database Systems.</p></div>
+    </div>
+    <div class="entry">
+      <div class="rail"><span class="kind">Degree</span>2012 – 2016</div>
+      <div><h3>B.Tech, Computer Science and Engineering</h3><p class="where">Vignan University, India · 2016 · GPA 3.9</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <div>Hemaranjani Geddam · AI Engineer · Tampa, FL</div>
+    <div class="links">
+      <a class="btn" href="https://www.linkedin.com/in/hg4">LinkedIn</a>
+      <a class="btn" href="https://github.com/hemaranjani02">GitHub</a>
+      <a class="btn" href="resume.pdf">Résumé (PDF)</a>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
